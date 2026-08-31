@@ -72,22 +72,36 @@ Files are saved to `data/` by default. More tasks can be built yourself
 (see below) from raw UniIR/MM-embed outputs, or requested from the authors.
 
 ## Building Your Own EBQPP Dataset (Advanced)
-If you have your own UniIR or MM-embed retrieval outputs (a TREC-style run
-file, qrels, and query/candidate embeddings) for a new M-BEIR task, you can
-reconstruct an EBQPP record file yourself:
+`scripts/build_dataset.py` is the pipeline that turns raw UniIR/MM-embed
+retrieval outputs (a TREC-style run file, qrels, and query/candidate
+embeddings) into an EBQPP record file. To try it end-to-end on real data
+with nothing you need to provide yourself, download a small real sample
+(300 of the 5000 `mscoco_task3` test queries, with a candidate pool
+filtered down to just what those queries need) and run it directly:
 ```bash
+python scripts/download_raw_sample.py
+
 python scripts/build_dataset.py \
-  --run_path <run file>.txt \
-  --qrels_path <qrels file>.txt \
-  --query_jsonl_path <query file>.jsonl \
-  --query_embed_path <query embeddings>.npy \
-  --query_ids_path <query ids>.npy \
-  --cand_embed_path <candidate-pool embeddings>.npy \
-  --cand_ids_path <candidate-pool ids>.npy \
+  --run_path data/raw_sample/uniir/mbeir_mscoco_task3_single_pool_test_k10_run.txt \
+  --qrels_path data/raw_sample/mbeir_mscoco_task3_test_qrels.txt \
+  --query_jsonl_path data/raw_sample/mbeir_mscoco_task3_test.jsonl \
+  --query_embed_path data/raw_sample/uniir/mbeir_mscoco_task3_test_embed.npy \
+  --query_ids_path data/raw_sample/uniir/mbeir_mscoco_task3_test_ids.npy \
+  --cand_embed_path data/raw_sample/uniir/mbeir_mscoco_task3_cand_pool_embed.npy \
+  --cand_ids_path data/raw_sample/uniir/mbeir_mscoco_task3_cand_pool_ids.npy \
   --top_k 10 \
-  --out_path data/dataset_my_task_test.pkl
+  --out_path data/dataset_mscoco_task3_test_uniir.pkl
 ```
-See the header of `scripts/build_dataset.py` for the exact input format.
+The same sample also has an MM-embed version - swap the `uniir/` paths above
+for `mmembed/mbeir_mscoco_task3_union_pool_test_k100_run.txt` and the
+matching `mmembed/` embedding files.
+
+This `mscoco_task3` sample is only for seeing the pipeline work on real
+data - it's already covered by `scripts/download_dataset.py` above. To
+extend the benchmark to a **new** M-BEIR task, run UniIR or MM-embed
+yourself on that task to get its own run file/qrels/embeddings, then point
+`build_dataset.py` at those files the same way. See the header of
+`scripts/build_dataset.py` for the exact input format.
 
 ## Acknowledgement
 This repository was developed with support from the **서울시립대학교 데이터 사이언스 플러스 차세대 융합인재 양성사업단** - http://dsplus.uos.ac.kr/
