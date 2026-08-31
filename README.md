@@ -90,5 +90,4 @@ python scripts/build_dataset.py \
 See the header of `scripts/build_dataset.py` for the exact input format.
 
 ## Acknowledgement
-This repository was developed with support from the **데이터사이언스 융합인재양성사업단**
-(Data Science-based Convergent Talent Education Program) - http://dsplus.uos.ac.kr/
+This repository was developed with support from the **서울시립대학교 데이터 사이언스 플러스 차세대 융합인재 양성사업단** - http://dsplus.uos.ac.kr/
